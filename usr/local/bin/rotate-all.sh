@@ -36,8 +36,6 @@ then
 	xrandr_action="inverted"
 fi
 
-xsetwacom set "NTRG0001:01 1B96:1B05 Pen stylus" rotate $rotation
-xsetwacom set "NTRG0001:01 1B96:1B05 Pen eraser" rotate $rotation
 
 xinput set-prop "pointer:CUST0000:00 04F3:2A4B" "Coordinate Transformation Matrix" $CTM
 xinput set-prop "keyboard:CUST0000:00 04F3:2A4B" "Coordinate Transformation Matrix" $CTM
