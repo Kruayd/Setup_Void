@@ -1,0 +1,24 @@
+# Create a Plot or User and System CPU Usage, update every second
+#
+set title "y comparison"
+set yrange [-1000000:1000000] 
+set ylabel "screen roty value"
+set y2range [-1000000:1000000] 
+set y2label "keyboard roty value"
+set xdata time
+set timefmt "%H:%M:%S"
+set format x "%H:%M:%.3S"
+
+system "echo $(find /sys/devices/ -iname *accel_y_raw | grep HID-SENSOR-200073.12) > yscreenpath"
+system "echo $(find /sys/devices/ -iname *accel_y_raw | grep HID-SENSOR-200073.13) > ychassispath"
+
+system "echo $(date +'%H:%M:%S.%N') $(cat $(cat yscreenpath)) > scrny.dat"
+system "echo $(date +'%H:%M:%S.%N') $(cat $(cat ychassispath)) > kbdy.dat"
+
+plot "scrny.dat" using 1:2  with lines axes x1y1 title "screen y value",  "kbdy.dat" using 1:2 with lines axes x1y2 title "keyboard y value"
+while (1) {
+	pause 0.1
+	system "echo $(date +'%H:%M:%S.%N') $(cat $(cat yscreenpath)) >> scrny.dat; tail -100 scrny.dat > scrny.tmp; cat scrny.tmp > scrny.dat"
+	system "echo $(date +'%H:%M:%S.%N') $(cat $(cat ychassispath)) >> kbdy.dat; tail -100 kbdy.dat > kbdy.tmp; cat kbdy.tmp > kbdy.dat"
+	replot
+}

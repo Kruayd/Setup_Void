@@ -1,0 +1,25 @@
+# Create a Plot or User and System CPU Usage, update every second
+#
+set title "z comparison"
+set yrange [-1000000:1000000] 
+set ylabel "screen rotz value"
+set y2range [-1000000:1000000] 
+set y2label "keyboard rotz value"
+set xdata time
+set timefmt "%H:%M:%S"
+set format x "%H:%M:%.3S"
+
+system "echo $(find /sys/devices/ -iname *accel_z_raw | grep HID-SENSOR-200073.12) > zscreenpath"
+system "echo $(find /sys/devices/ -iname *accel_z_raw | grep HID-SENSOR-200073.13) > zchassispath"
+
+
+system "echo $(date +'%H:%M:%S.%N') $(cat $(cat zscreenpath)) > scrnz.dat"
+system "echo $(date +'%H:%M:%S.%N') $(cat $(cat zchassispath)) > kbdz.dat"
+
+plot "scrnz.dat" using 1:2  with lines axes x1y1 title "screen z value",  "kbdz.dat" using 1:2 with lines axes x1y2 title "keyboard z value"
+while (1) {
+	pause 0.1
+	system "echo $(date +'%H:%M:%S.%N') $(cat $(cat zscreenpath)) >> scrnz.dat; tail -100 scrnz.dat > scrnz.tmp; cat scrnz.tmp > scrnz.dat"
+	system "echo $(date +'%H:%M:%S.%N') $(cat $(cat zchassispath)) >> kbdz.dat; tail -100 kbdz.dat > kbdz.tmp; cat kbdz.tmp > kbdz.dat"
+	replot
+}

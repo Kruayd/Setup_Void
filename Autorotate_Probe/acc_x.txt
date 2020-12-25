@@ -1,0 +1,27 @@
+# Create a Plot or User and System CPU Usage, update every second
+#
+set title "x comparison"
+set yrange [-20000000:20000000] 
+set ylabel "screen rotx value"
+set y2range [-20000000:20000000] 
+set y2label "keyboard rotx value"
+set xdata time
+set timefmt "%H:%M:%S"
+set format x "%H:%M:%.3S"
+
+#system "echo $(find /sys/devices/ -iname *accel_x_raw | grep HID-SENSOR-200073.12) > xscreenpath"
+#system "echo $(find /sys/devices/ -iname *accel_x_raw | grep HID-SENSOR-200073.13) > xchassispath"
+system "echo $(find /sys/devices/ -iname *incli_x_raw) > xscreenpath"
+system "echo $(find /sys/devices/ -iname *incli_z_raw) > xchassispath"
+
+
+system "echo $(date +'%H:%M:%S.%N') $(cat $(cat xscreenpath)) > scrnx.dat"
+system "echo $(date +'%H:%M:%S.%N') $(cat $(cat xchassispath)) > kbdx.dat"
+
+plot "scrnx.dat" using 1:2  with lines axes x1y1 title "screen x value",  "kbdx.dat" using 1:2 with lines axes x1y2 title "keyboard x value"
+while (1) {
+	pause 0.1
+	system "echo $(date +'%H:%M:%S.%N') $(cat $(cat xscreenpath)) >> scrnx.dat; tail -100 scrnx.dat > scrnx.tmp; cat scrnx.tmp > scrnx.dat"
+	system "echo $(date +'%H:%M:%S.%N') $(cat $(cat xchassispath)) >> kbdx.dat; tail -100 kbdx.dat > kbdx.tmp; cat kbdx.tmp > kbdx.dat"
+	replot
+}

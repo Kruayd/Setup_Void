@@ -1,0 +1,12 @@
+HID-SENSOR-200073.12 ---> screen
+HID-SENSOR-200073.13 ---> chassis
+
+In standard condition (PC on laptop mode on a flat surface):
+	- x axis is pointing left
+	- y axis is pointing towards user
+	- z axis is pointing upward
+	- keyboard normal is pointing along -z
+	- screen normal is pointing along -y
+	- screen x projection is useless (set as default as the same of keyboard)
+
+
