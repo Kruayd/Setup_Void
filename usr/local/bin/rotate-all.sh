@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export DISPLAY=':0'
-export XAUTHORITY="/run/user/1000/gdm/Xauthority"
+export XAUTHORITY="/home/kruayd/.Xauthority"
 
 if [[ $# -ne 1 ]]
 then
@@ -39,4 +39,5 @@ fi
 
 xinput set-prop "pointer:CUST0000:00 04F3:2A4B" "Coordinate Transformation Matrix" $CTM
 xinput set-prop "keyboard:CUST0000:00 04F3:2A4B" "Coordinate Transformation Matrix" $CTM
+xinput set-prop "Integrated_Webcam_HD: Integrate" "Coordinate Transformation Matrix" $CTM
 xrandr --output eDP1 --rotate $xrandr_action
