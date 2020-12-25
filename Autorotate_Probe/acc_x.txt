@@ -1,18 +1,16 @@
 # Create a Plot or User and System CPU Usage, update every second
 #
 set title "x comparison"
-set yrange [-20000000:20000000] 
+set yrange [-1000000:1000000] 
 set ylabel "screen rotx value"
-set y2range [-20000000:20000000] 
+set y2range [-1000000:1000000] 
 set y2label "keyboard rotx value"
 set xdata time
 set timefmt "%H:%M:%S"
 set format x "%H:%M:%.3S"
 
-#system "echo $(find /sys/devices/ -iname *accel_x_raw | grep HID-SENSOR-200073.12) > xscreenpath"
-#system "echo $(find /sys/devices/ -iname *accel_x_raw | grep HID-SENSOR-200073.13) > xchassispath"
-system "echo $(find /sys/devices/ -iname *incli_x_raw) > xscreenpath"
-system "echo $(find /sys/devices/ -iname *incli_z_raw) > xchassispath"
+system "echo $(find /sys/devices/ -iname *accel_x_raw | grep HID-SENSOR-200073.12) > xscreenpath"
+system "echo $(find /sys/devices/ -iname *accel_x_raw | grep HID-SENSOR-200073.13) > xchassispath"
 
 
 system "echo $(date +'%H:%M:%S.%N') $(cat $(cat xscreenpath)) > scrnx.dat"
