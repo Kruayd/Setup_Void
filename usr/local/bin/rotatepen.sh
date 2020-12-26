@@ -18,23 +18,16 @@ rotation=$1
 if [[ $rotation == "ccw" ]]
 then
 	CTM=$leftr
-	xrandr_action="left"
 elif [[ $rotation == "cw" ]]
 then
 	CTM=$rightr
-	xrandr_action="right"
 elif [[ $rotation == "none" ]]
 then
 	CTM=$DEFAULTCTM
-	xrandr_action="normal"
 elif [[ $rotation == "half" ]]
 then
 	CTM=$upsider
-	xrandr_action="inverted"
 fi
 
 
-xinput set-prop "pointer:CUST0000:00 04F3:2A4B" "Coordinate Transformation Matrix" $CTM
 xinput set-prop "CUST0000:00 04F3:2A4B Pen (0)" "Coordinate Transformation Matrix" $CTM
-xinput set-prop "CUST0000:00 04F3:2A4B Eraser (0)" "Coordinate Transformation Matrix" $CTM
-xrandr --output eDP1 --rotate $xrandr_action
