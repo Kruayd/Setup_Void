@@ -1,5 +1,8 @@
 #!/bin/bash
 
+export DISPLAY=':0'
+export XAUTHORITY="/home/kruayd/.Xauthority" #what if another user?
+
 if [[ $# -ne 1 ]]
 then
         echo "You need to specify which way to rotate."

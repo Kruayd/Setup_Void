@@ -90,10 +90,11 @@ case "$1" in
             TBLT)
                 case "$4" in
                     00000000)   echo "laptop mode" >/dev/tty5
-			    export TABLET_MODE=0
+			    sv down autorotate
+			    /usr/local/bin/rotate-all.sh none
                     ;;
                     00000001)   echo "tablet mode"  >/dev/tty5
-			    export TABLET_MODE=1
+			    sv up autorotate
                     ;;
                 esac
                 ;;
