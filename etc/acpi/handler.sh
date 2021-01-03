@@ -79,6 +79,7 @@ case "$1" in
 		close)
 			# suspend-to-ram
 			logger "LID closed, suspending..."
+			sleep 0.5
 			zzz
 			;;
 		open)	logger "LID opened" ;;
