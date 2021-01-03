@@ -17,7 +17,32 @@ Plugin 'gmarik/Vundle.vim'
 " Add all your plugins here (note older versions of Vundle
 " Used Bundle instead of Plugin)
 
-" ...
+" Better folding + docstrings for folded code
+Plugin 'tmhedberg/SimpylFold'
+
+" Auto-indentation
+Plugin 'vim-scripts/indentpython.vim'
+
+" Check syntax plugin + PEP8 checking
+Plugin 'vim-syntastic/syntastic'
+Plugin 'nvie/vim-flake8'
+
+" More color scheme
+Plugin 'jnurmine/Zenburn'
+Plugin 'altercation/vim-colors-solarized'
+
+" File tree + use tabs + hide .pyc files
+Plugin 'scrooloose/nerdtree'
+Plugin 'jistr/vim-nerdtree-tabs'
+
+" Search for files
+Plugin 'kien/ctrlp.vim'
+
+" Git commands integration
+Plugin 'tpope/vim-fugitive'
+
+" Powerline
+Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -40,7 +65,6 @@ set foldlevel=99
 nnoremap <space> za
 
 " Better folding + docstrings for folded code
-Plugin 'tmhedberg/SimpylFold'
 let g:SimpylFold_docstring_preview=1
 
 " PEP 8 indentation
@@ -58,9 +82,6 @@ au BufNewFile,BufRead *.js,*.html,*.css
     \ set tabstop=2 |
     \ set softtabstop=2 |
     \ set shiftwidth=2
-
-" Auto-indentation
-Plugin 'vim-scripts/indentpython.vim'
 
 " UTF-8 support
 set encoding=utf-8
@@ -80,17 +101,9 @@ if 'VIRTUAL_ENV' in os.environ:
   execfile(activate_this, dict(__file__=activate_this))
 EOF
 
-" Check syntax plugin + PEP8 checking
-Plugin 'vim-syntastic/syntastic'
-Plugin 'nvie/vim-flake8'
-
 " Let code look pretty + syntax highlight enable
 let python_highlight_all=1
 syntax on
-
-" More color scheme
-Plugin 'jnurmine/Zenburn'
-Plugin 'altercation/vim-colors-solarized'
 
 " Logic for colorscheme
 if has('gui_running')
@@ -111,49 +124,15 @@ au BufRead,BufNewFile *.py,*.pyw,*.c,*.h
 call togglebg#map("<F5>")
 
 " File tree + use tabs + hide .pyc files
-Plugin 'scrooloose/nerdtree'
-Plugin 'jistr/vim-nerdtree-tabs'
 let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
-
-" Search for files
-Plugin 'kien/ctrlp.vim'
 
 " Line numbering
 set nu
-
-" Git commands integration
-Plugin 'tpope/vim-fugitive'
-
-" Powerline
-Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 
 " System clipboard
 set clipboard=unnamed
 
 set laststatus=2  " always display the status line
-
-" Select kite supported languages
-let g:kite_supported_languages = ['python']
-
-" Enable kite functions
-let g:kite_auto_complete=1
-let g:kite_snippets=1
-let g:kite_tab_complete=1
-let g:kite_previous_placeholder = '<C-A>'
-let g:kite_next_placeholder = '<C-S>'
-
-" Customize kite complete menu
-set completeopt+=menuone   " show the popup menu even when there is only 1 match
-set completeopt+=noinsert  " don't insert any text until user chooses a match
-set completeopt-=longest   " don't insert the longest common text
-set completeopt-=preview   " no documentation preview
-set belloff+=ctrlg  " if vim beeps during completion
-
-" Close automatically the documentation preview window
-" autocmd CompleteDone * if !pumvisible() | pclose | endif
-
-" :KiteShowPopularPatterns
-" :KiteHidePopularPatterns
 
 " Enable glsl highlighting:
 au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl

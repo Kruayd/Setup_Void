@@ -4,14 +4,14 @@
 # NOTE: This is a 2.6-centric script.  If you use 2.4.x, you'll have to
 #       modify it to not use /sys
 
-minspeed=`cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq`
-maxspeed=`cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq`
-setspeed="/sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed"
+#minspeed=`cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq`
+#maxspeed=`cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq`
+#setspeed="/sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed"
 
 set $*
 
 PID=$(pgrep dbus-launch)
-export USER=$(ps -o user --no-headers $PID)
+export USER=$(ps -o user --no-headers $PID | grep -v sddm)
 USERHOME=$(getent passwd $USER | cut -d: -f6)
 export XAUTHORITY="$USERHOME/.Xauthority"
 for x in /tmp/.X11-unix/*; do
@@ -47,11 +47,11 @@ case "$1" in
             AC|ACAD|ADP0)
                 case "$4" in
                     00000000)
-                        echo -n $minspeed >$setspeed
+                        #echo -n $minspeed >$setspeed
                         #/etc/laptop-mode/laptop-mode start
                     ;;
                     00000001)
-                        echo -n $maxspeed >$setspeed
+                        #echo -n $maxspeed >$setspeed
                         #/etc/laptop-mode/laptop-mode stop
                     ;;
                 esac
@@ -74,17 +74,17 @@ case "$1" in
             *)  logger "ACPI action undefined: $2" ;;
         esac
         ;;
-#    button/lid)
-#	case "$3" in
-#		close)
-#			# suspend-to-ram
-#			logger "LID closed, suspending..."
-#			zzz
-#			;;
-#		open)	logger "LID opened" ;;
-#		*) logger "ACPI action undefined (LID): $2";;
-#	esac
-#	;;
+    button/lid)
+	case "$3" in
+		close)
+			# suspend-to-ram
+			logger "LID closed, suspending..."
+			zzz
+			;;
+		open)	logger "LID opened" ;;
+		*) logger "ACPI action undefined (LID): $2";;
+	esac
+	;;
     video/tabletmode)
         case "$2" in
             TBLT)
