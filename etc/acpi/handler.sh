@@ -74,18 +74,18 @@ case "$1" in
             *)  logger "ACPI action undefined: $2" ;;
         esac
         ;;
-    button/lid)
-	case "$3" in
-		close)
-			# suspend-to-ram
-			logger "LID closed, suspending..."
-			sleep 0.5
-			zzz
-			;;
-		open)	logger "LID opened" ;;
-		*) logger "ACPI action undefined (LID): $2";;
-	esac
-	;;
+#    button/lid)
+#	case "$3" in
+#		close)
+#			# suspend-to-ram
+#			logger "LID closed, suspending..."
+#			sleep 0.5
+#			zzz
+#			;;
+#		open)	logger "LID opened" ;;
+#		*) logger "ACPI action undefined (LID): $2";;
+#	esac
+#	;;
     video/tabletmode)
         case "$2" in
             TBLT)
