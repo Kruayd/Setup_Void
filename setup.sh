@@ -23,7 +23,7 @@ fi
 
 # Add non-free repository and install microcode for INTEL
 # then regenerate initramfs
-xbps-install -S void-repo-nonfree
+xbps-install -S void-repo-nonfree # Necessary to install the intel microcode (next line)
 xbps-install -S intel-ucode
 xbps-reconfigure -fa
 
@@ -92,7 +92,7 @@ ln -s /etc/sv/isc-ntpd /var/service/
 # Power management
 # acpid
 ln -s /etc/sv/acpid /var/service/ || xbps-install -S acpid && ln -s /etc/sv/acpid /var/service/
-cp -R SCRIPT_DIR/etc/acpi /etc/
+cp -R $SCRIPT_DIR/etc/acpi /etc/
 # elogind
 xbps-install -S elogind
 sed -i -e "/^Handle/s/^/#/" /etc/elogind/logind.conf
@@ -100,7 +100,7 @@ ln -s /etc/sv/elogind /var/service
 # tlp
 xbps-install -S tlp
 ln -s /etc/sv/tlp /var/service/
-cp -R SCRIPT_DIR/etc/tlp.d /etc/
+cp -R $SCRIPT_DIR/etc/tlp.d /etc/
 
 # NetworkManager
 xbps-install -S NetworkManager
@@ -123,7 +123,7 @@ xbps-install -S linux-firmware-intel mesa-dri vulkan-loader mesa-vulkan-intel in
 
 # Xorg
 xbps-install xorg
-cp -R SCRIPT_DIR/etc/X11/xorg.conf.d /etc/X11/
+cp -R $SCRIPT_DIR/etc/X11/xorg.conf.d /etc/X11/
 xbps-remove -F xorg-video-drivers # Intel specific (not sure)
 
 
@@ -144,6 +144,7 @@ xbps-reconfigure -f fontconfig
 xbps-install -S kde5 kde5-baseapps kdegraphics-thumbnailers ffmpegthumbss accountsservice
 ln -s /etc/sv/sddm /var/service/
 cp /usr/share/wayland-sessions/plasmawayland.desktop /usr/share/wayland-sessions/plasmawayland.desktop.old
+cp /usr/share/xsession/plasma.desktop /usr/share/xsessions/plasma.desktop.old
 sed -i -e "/^Exec\=/s/\=/\=env QT_QPA_PLATFORM\=wayland-egl MOZ_ENABLE_WAYLAND\=1 /" /usr/share/wayland-sessions/plasmawayland.desktop # we're gonna install firefox later
 
 
@@ -154,12 +155,11 @@ sed -i -e "/^Exec\=/s/\=/\=env QT_QPA_PLATFORM\=wayland-egl MOZ_ENABLE_WAYLAND\=
 #####################################################################
 
 # Multimedia
-xbps-install -S sof-firmware # pipewire pipewire-doc pulseeffects libpulseaudio-pipewire alsa-pipewire libjack-pipewire gstreamer1-pipewire libspa-bluetooth
-# sed -i -e "/^Exec\=/s/MOZ_ENABLE_WAYLAND\=1 /MOZ_ENABLE_WAYLAND\=1 pipewire pipewire-pulse /" /usr/share/wayland-sessions/plasmawayland.desktop
-# sed -i -e "/^Exec\=/s/\=/\=pipewire pipewire-pulse /" /usr/share/xsessions/plasma.desktop
-# xbps-install -S bluez
-# ln -s /etc/sv/bluetoothd /var/service/
-# I still need to understand how to properly configure PipeWire
+xbps-install -S sof-firmware pipewire pipewire-doc pulseeffects libpulseaudio-pipewire alsa-pipewire libjack-pipewire gstreamer1-pipewire libspa-bluetooth
+sed -i -e "/^Exec\=/s/MOZ_ENABLE_WAYLAND\=1 /MOZ_ENABLE_WAYLAND\=1 pipewire pipewire-pulse /" /usr/share/wayland-sessions/plasmawayland.desktop
+sed -i -e "/^Exec\=/s/\=/\=pipewire pipewire-pulse /" /usr/share/xsessions/plasma.desktop
+xbps-install -S bluez
+ln -s /etc/sv/bluetoothd /var/service/
 
 # Printing
 xbps-install -S cups cups-filters
@@ -187,14 +187,14 @@ xbps-install -S wget git make cmake tar gzip ffmpeg
 
 # Tablet mode
 xbps-install -S iio-sensor-proxy
-cp -R SCRIPT_DIR/usr/local/bin /usr/local/
-cp -R SCRIPT_DIR/etc/sv/autorotate /etc/sv/
+cp -R $SCRIPT_DIR/usr/local/bin /usr/local/
+cp -R $SCRIPT_DIR/etc/sv/autorotate /etc/sv/
 ln -s /etc/sv/autorotate /var/service/
 # Need to understand how to install maliit keyboard
 # or any other good virtual keyboard
 
 # Useful softwares
-xbps-install -S htop tree pass neofetch python3-pip python3-wheel python3-virtualenv dolphin konsole gwenview spectacle okular qtpass mpv firefox telegram-desktop skype element-desktop
+xbps-install -S htop tree pass neofetch python3-pip python3-wheel python3-virtualenv dolphin konsole gwenview spectacle okular qtpass mpv firefox telegram-desktop element-desktop
 
 # Production softwares
 xbps-install -S pdftk ImageMagick kate5 libreoffice gimp inkscape krita obs texstudio # xournalpp (?)

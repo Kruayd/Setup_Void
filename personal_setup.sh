@@ -15,7 +15,21 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-ls ~/Builds || mdkir ~/Builds
+# Install TeX live
+mkdir ~/Programs
+mkdir ~/Programs/LaTeX
+cd ~/Programs/LaTeX
+wget https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
+tar -xzvf install-tl-unx.tar.gz
+rm install-tl-unx.tar.gz
+export TEXLIVE_INSTALL_PREFIX=$(pwd)
+perl $(ls | sort | tail -n 1)/install-tl -portable
+sed -i -e "/^# Set our default path.*/i # Must be at the beginning of path in order to let LaTeX to work properly\nPATH\='$(pwd)\/bin\/x86_64-linux:'\$PATH\n" /etc/profile
+
+
+# Change
+
+mkdir ~/Builds
 cd ~/Builds
 
 # Breeze hacked cursor theme
@@ -34,9 +48,9 @@ sudo xbps-install vim-huge-python3 python3-devel gcc cmake mono go nodejs openjd
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 cd ~/.vim/bundle/YouCompleteMe
 python3 install.py --all
-cp SCRIPT_DIR/home/kruayd/.vimrc ~/
+cp $SCRIPT_DIR/home/kruayd/.vimrc ~/
 vim -c 'PluginInstall' -c 'qa!'
 # more info at https://dev.to/shahinsha/how-to-make-vim-a-python-ide-best-ide-for-python-23e1
 
 # copy themes for KDE
-cp -R SCRIPT_DIR/home/kruayd/.local/* ~/.local/
+cp -R $SCRIPT_DIR/home/kruayd/.local/* ~/.local/
