@@ -256,6 +256,9 @@ xbps-install -S v4l2loopback
 
 # Foundamental stuffs
 xbps-install -S wget git make cmake tar gzip ffmpeg
+
+# exFAT compatibility
+xbps-install -S fuse-exfat exfat-utils
 read -p "Press enter to continue"
 
 
