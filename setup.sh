@@ -21,11 +21,20 @@ fi
 #	   https://docs.voidlinux.org/config/firmware.html	    #
 #####################################################################
 
+echo ""
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
+echo "                          MICROCODE                             "
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
 # Add non-free repository and install microcode for INTEL
 # then regenerate initramfs
 xbps-install -S void-repo-nonfree # Necessary to install the intel microcode (next line)
 xbps-install -S intel-ucode
 xbps-reconfigure -fa
+read -p "Press enter to continue"
 
 
 #####################################################################
@@ -37,12 +46,21 @@ xbps-reconfigure -fa
 #			LC_NUMERIC and LC_TIME			    #
 #####################################################################
 
+echo ""
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
+echo "                           LOCALES                              "
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
 # Uncomment en_IE.UTF-8 UTF-8 locale
 sed -i -e "/en_IE.UTF-8 UTF-8/s/^#//" /etc/default/libc-locales
 # Setting the system locale
 echo "LANG=en_IE.utf8" > /etc/locale.conf
 echo "LC_COLLATE=C" >> /etc/locale.conf
 xbps-reconfigure -f glibc-locales
+read -p "Press enter to continue"
 
 
 #####################################################################
@@ -54,6 +72,14 @@ xbps-reconfigure -f glibc-locales
 #			(I live in Germany)			    #
 #####################################################################
 
+echo ""
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
+echo "                           RC-CONF                              "
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
 # rc.conf settings (uncomment and select)
 # Hardware clock settings
 sed -i -e "/HARDWARECLOCK\=/s/^#//" /etc/rc.conf
@@ -70,18 +96,28 @@ sed -i -e "/FONT\=/s/\=.*$/\=\"lat9w-16\"/" /etc/rc.conf
 # ttys settings
 sed -i -e "/TTYS\=/s/^#//" /etc/rc.conf
 sed -i -e "/TTYS\=/s/\=.*$/\=8/" /etc/rc.conf
+read -p "Press enter to continue"
 
 
 #####################################################################
 #		   Same thing here with timezone		    #
 #####################################################################
 
+echo ""
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
+echo "                          TIMEZONES                             "
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
 # Date and Time settings
 # Timezone
 ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 # Network Time Protocol
 xbps-install -S ntp
 ln -s /etc/sv/isc-ntpd /etc/runit/runsvdir/default/
+read -p "Press enter to continue"
 
 
 #####################################################################
@@ -89,6 +125,14 @@ ln -s /etc/sv/isc-ntpd /etc/runit/runsvdir/default/
 #		do not install it if you don't need it		    #
 #####################################################################
 
+echo ""
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
+echo "                      POWER MANAGEMENT                          "
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
 # Power management
 # acpid
 ln -s /etc/sv/acpid /etc/runit/runsvdir/default/ || xbps-install -S acpid && ln -s /etc/sv/acpid /etc/runit/runsvdir/default/
@@ -101,13 +145,23 @@ ln -s /etc/sv/elogind /var/service
 xbps-install -S tlp
 ln -s /etc/sv/tlp /etc/runit/runsvdir/default/
 cp -R $SCRIPT_DIR/etc/tlp.d /etc/
+read -p "Press enter to continue"
 
+echo ""
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
+echo "                           NETWORK                              "
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
 # NetworkManager
 xbps-install -S NetworkManager
 rm -rf /etc/runit/runsvdir/default/{dhcpcd,wpa_supplicant,wicd}
 xbps-install -S dbus-elogind dbus-elogind-libs dbus-elogind-x11
 ls /etc/runit/runsvdir/default/dbus || ln -s /etc/sv/dbus /etc/runit/runsvdir/default/
 ln -s /etc/sv/NetworkManager /etc/runit/runsvdir/default/
+read -p "Press enter to continue"
 
 
 #####################################################################
@@ -118,6 +172,14 @@ ln -s /etc/sv/NetworkManager /etc/runit/runsvdir/default/
 #   https://docs.voidlinux.org/config/graphical-session/index.html  #
 #####################################################################
 
+echo ""
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
+echo "                           GRAPHICS                             "
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
 # Graphics drivers for Intel integrated gpu
 xbps-install -S linux-firmware-intel mesa-dri vulkan-loader mesa-vulkan-intel intel-video-accel
 
@@ -125,6 +187,7 @@ xbps-install -S linux-firmware-intel mesa-dri vulkan-loader mesa-vulkan-intel in
 xbps-install -S xorg
 cp -R $SCRIPT_DIR/etc/X11/xorg.conf.d /etc/X11/
 xbps-remove -F xorg-video-drivers # Intel specific (not sure)
+read -p "Press enter to continue"
 
 
 #####################################################################
@@ -133,6 +196,14 @@ xbps-remove -F xorg-video-drivers # Intel specific (not sure)
 #  https://docs.voidlinux.org/config/graphical-session/index.html   #
 #####################################################################
 
+echo ""
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
+echo "                             DE                                 "
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
 # Wayland
 xbps-install -S wayland qt5-wayland kwayland xorg-server-xwayland
 
@@ -146,6 +217,7 @@ ln -s /etc/sv/sddm /etc/runit/runsvdir/default/
 cp /usr/share/wayland-sessions/plasmawayland.desktop /usr/share/wayland-sessions/plasmawayland.desktop.old
 cp /usr/share/xsessions/plasma.desktop /usr/share/xsessions/plasma.desktop.old
 sed -i -e "/^Exec\=/s/\=/\=env QT_QPA_PLATFORM\=wayland-egl MOZ_ENABLE_WAYLAND\=1 /" /usr/share/wayland-sessions/plasmawayland.desktop # we're gonna install firefox later
+read -p "Press enter to continue"
 
 
 #####################################################################
@@ -154,13 +226,26 @@ sed -i -e "/^Exec\=/s/\=/\=env QT_QPA_PLATFORM\=wayland-egl MOZ_ENABLE_WAYLAND\=
 #   https://bbs.archlinux.org/viewtopic.php?pid=1933643#p1933643    #
 #####################################################################
 
+echo ""
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
+echo "              MULTIMEDIA AND FOUNDAMENTAL STUFFS                "
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
 # Multimedia
-xbps-install -S sof-firmware pipewire pipewire-doc pulseeffects alsa-pipewire libjack-pipewire gstreamer1-pipewire libspa-bluetooth
-xbps-install -S libpulseaudio-pipewire
+xbps-install -S sof-firmware pipewire pipewire-doc easyeffects libspa-bluetooth alsa-pipewire libjack-pipewire gstreamer1-pipewire
+mkdir -p /etc/alsa/conf.d
+ln -s /usr/share/alsa/alsa.conf.d/50-pipewire.conf /etc/alsa/conf.d
+ln -s /usr/share/alsa/alsa.conf.d/99-pipewire-default.conf /etc/alsa/conf.d
 sed -i -e "/^Exec\=/s/MOZ_ENABLE_WAYLAND\=1 /MOZ_ENABLE_WAYLAND\=1 pipewire pipewire-pulse /" /usr/share/wayland-sessions/plasmawayland.desktop
 sed -i -e "/^Exec\=/s/\=/\=pipewire pipewire-pulse /" /usr/share/xsessions/plasma.desktop
 xbps-install -S bluez
 ln -s /etc/sv/bluetoothd /etc/runit/runsvdir/default/
+xbps-install -S xdg-desktop-portal
+#KDE specific
+xbps-install -S xdg-desktop-portal-kde
 
 # Printing
 xbps-install -S cups cups-filters
@@ -171,6 +256,7 @@ xbps-install -S v4l2loopback
 
 # Foundamental stuffs
 xbps-install -S wget git make cmake tar gzip ffmpeg
+read -p "Press enter to continue"
 
 
 #####################################################################
@@ -186,6 +272,14 @@ xbps-install -S wget git make cmake tar gzip ffmpeg
 # * https://www.reddit.com/r/linuxquestions/comments/kjewee/detecting_tablet_mode_for_autorotation/
 # ** https://github.com/torvalds/linux/blob/master/drivers/platform/x86/intel-hid.c
 
+echo ""
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
+echo "                           TABLET                               "
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
 # Tablet mode
 xbps-install -S iio-sensor-proxy
 cp -R $SCRIPT_DIR/usr/local/bin /usr/local/
@@ -193,15 +287,41 @@ cp -R $SCRIPT_DIR/etc/sv/autorotate /etc/sv/
 ln -s /etc/sv/autorotate /etc/runit/runsvdir/default/
 # Need to understand how to install maliit keyboard
 # or any other good virtual keyboard
+read -p "Press enter to continue"
 
+echo ""
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
+echo "                          SOFTWARES                             "
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
 # Useful softwares
 xbps-install -S htop tree pass neofetch python3-pip python3-wheel python3-virtualenv dolphin konsole gwenview spectacle okular qtpass mpv firefox telegram-desktop element-desktop
 
 # Production softwares
 xbps-install -S pdftk ImageMagick kate5 libreoffice gimp inkscape krita obs texstudio # xournalpp (?)
+read -p "Press enter to continue"
+
+
+echo ""
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
+echo "                       USER SECTION                             "
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
+echo "Input your user name"
+read -r user_name
+useradd -m -g users -G wheel,floppy,lp,audio,video,cdrom,optical,scanner,network,kvm,xbuilder,bluetooth $user_name
+passwd $user_name
 
 
 
+echo ""
+echo ""
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo ""
 echo "To finalize installation consult:"
