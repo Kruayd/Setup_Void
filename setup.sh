@@ -140,7 +140,7 @@ cp -R $SCRIPT_DIR/etc/acpi /etc/
 # elogind
 xbps-install -S elogind
 sed -i -e "/^Handle/s/^/#/" /etc/elogind/logind.conf
-ln -s /etc/sv/elogind /var/service
+ln -s /etc/sv/elogind /etc/runit/runsvdir/default/
 # tlp
 xbps-install -S tlp
 ln -s /etc/sv/tlp /etc/runit/runsvdir/default/
