@@ -9,12 +9,6 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-# Check if root
-if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root" 
-   exit 1
-fi
-
 # Install TeX live
 mkdir ~/Programs
 mkdir ~/Programs/LaTeX
@@ -24,7 +18,7 @@ tar -xzvf install-tl-unx.tar.gz
 rm install-tl-unx.tar.gz
 export TEXLIVE_INSTALL_PREFIX=$(pwd)
 perl $(ls | sort | tail -n 1)/install-tl -portable
-sed -i -e "/^# Set our default path.*/i # Must be at the beginning of path in order to let LaTeX to work properly\nPATH\='$(pwd)\/bin\/x86_64-linux:'\$PATH\n" /etc/profile
+sudo sed -i -e "/^# Set our default path.*/i # Must be at the beginning of path in order to let LaTeX to work properly\nPATH\='$(pwd)\/bin\/x86_64-linux:'\$PATH\n" /etc/profile
 
 
 # Change
@@ -39,17 +33,17 @@ git clone https://github.com/codejamninja/breeze-hacked-cursor-theme.git .
 make install
 cd ..
 
-# Suru plus asoromauros icons
+# Suru plus aspromauros icons
 wget -qO- https://raw.githubusercontent.com/gusbemacbe/suru-plus-aspromauros/master/install.sh | sh
 
 # Setup vim
 sudo xbps-remove -R vim
 sudo xbps-install vim-huge-python3 python3-devel gcc cmake mono go nodejs openjdk11
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-cd ~/.vim/bundle/YouCompleteMe
-python3 install.py --all
 cp $SCRIPT_DIR/home/kruayd/.vimrc ~/
 vim -c 'PluginInstall' -c 'qa!'
+cd ~/.vim/bundle/YouCompleteMe
+python3 install.py --all
 # more info at https://dev.to/shahinsha/how-to-make-vim-a-python-ide-best-ide-for-python-23e1
 
 # copy themes for KDE
