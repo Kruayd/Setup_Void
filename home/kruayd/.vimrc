@@ -30,6 +30,7 @@ Plugin 'nvie/vim-flake8'
 " More color scheme
 Plugin 'jnurmine/Zenburn'
 Plugin 'altercation/vim-colors-solarized'
+Plugin 'ajmwagar/vim-deus'
 
 " File tree + use tabs + hide .pyc files
 Plugin 'scrooloose/nerdtree'
@@ -105,15 +106,29 @@ EOF
 let python_highlight_all=1
 syntax on
 
-" Logic for colorscheme
-if has('gui_running')
-  set background=dark
-  colorscheme solarized
-else
-  set background=dark
-  let g:solarized_termcolors=256
-  colorscheme solarized
-endif
+" Colorscheme section: comment and uncomment with
+" respect to your preferences
+
+" Logic for solarized colorscheme
+"if has('gui_running')
+"  set background=dark
+"  colorscheme solarized
+"else
+"  set background=dark
+"  let g:solarized_termcolors=256
+"  colorscheme solarized
+"endif
+
+" Logic for deus colorscheme
+set t_Co=256
+set termguicolors
+
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
+set background=dark    " Setting dark mode
+colorscheme deus
+let g:deus_termcolors=256
 
 " Flag unecessary whitespace
 highlight BadWhitespace ctermbg=red guibg=darkred

@@ -140,7 +140,10 @@ cp -R $SCRIPT_DIR/etc/acpi /etc/
 # elogind
 xbps-install -S elogind
 sed -i -e "/^Handle/s/^/#/" /etc/elogind/logind.conf
-ln -s /etc/sv/elogind /etc/runit/runsvdir/default/
+# Running elogind as a service is useless if you already run dbus
+# since the latter will take care of automatically running the former when needed
+# (decomment next line if you do not plan on installing dbus)
+# ln -s /etc/sv/elogind /etc/runit/runsvdir/default/
 # tlp
 xbps-install -S tlp
 ln -s /etc/sv/tlp /etc/runit/runsvdir/default/
