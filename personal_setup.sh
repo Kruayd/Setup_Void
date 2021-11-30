@@ -33,6 +33,17 @@ git clone https://github.com/codejamninja/breeze-hacked-cursor-theme.git .
 make install
 cd ..
 
+# xbps-src
+git clone https://github.com/void-linux/void-packages.git
+cd void-packages
+./xbps-src binary-bootstrap
+# Enable restricted
+echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
+# Install Zoom
+./xbps-src pkg zoom
+sudo xbps-install --repository hostdir/binpkgs/nonfree zoom
+cd ..
+
 # Suru plus aspromauros icons
 wget -qO- https://raw.githubusercontent.com/gusbemacbe/suru-plus-aspromauros/master/install.sh | sh
 

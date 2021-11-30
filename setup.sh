@@ -255,10 +255,13 @@ ln -s /etc/sv/cupsd /etc/runit/runsvdir/default/
 xbps-install -S v4l2loopback
 
 # Foundamental stuffs
-xbps-install -S wget git make cmake tar gzip ffmpeg
+xbps-install -S wget git make cmake tar gzip ffmpeg curl
 
 # exFAT compatibility
 xbps-install -S fuse-exfat exfat-utils
+
+# Thunderbolt demon
+ln -s /etc/sv/boltd /etc/runit/runsvdir/default/
 read -p "Press enter to continue"
 
 
@@ -285,6 +288,7 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo ""
 # Tablet mode
 xbps-install -S iio-sensor-proxy
+ln -s /etc/sv/iio-sensor-proxy /etc/runit/runsvdir/default/
 cp -R $SCRIPT_DIR/usr/local/bin /usr/local/
 cp -R $SCRIPT_DIR/etc/sv/autorotate /etc/sv/
 ln -s /etc/sv/autorotate /etc/runit/runsvdir/default/
@@ -304,7 +308,7 @@ echo ""
 xbps-install -S htop tree pass neofetch python3-pip python3-wheel python3-virtualenv dolphin konsole gwenview spectacle okular qtpass mpv firefox telegram-desktop element-desktop
 
 # Production softwares
-xbps-install -S pdftk ImageMagick kate5 libreoffice gimp inkscape krita obs texstudio # xournalpp (?)
+xbps-install -S pdftk ImageMagick kate5 libreoffice gimp inkscape krita obs texstudio xournalpp
 read -p "Press enter to continue"
 
 
