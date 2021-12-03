@@ -218,7 +218,6 @@ xbps-reconfigure -f fontconfig
 xbps-install -S kde5 kde5-baseapps kdegraphics-thumbnailers ffmpegthumbs accountsservice
 ln -s /etc/sv/sddm /etc/runit/runsvdir/default/
 cp /usr/share/wayland-sessions/plasmawayland.desktop /usr/share/wayland-sessions/plasmawayland.desktop.old
-cp /usr/share/xsessions/plasma.desktop /usr/share/xsessions/plasma.desktop.old
 sed -i -e "/^Exec\=/s/\=/\=env QT_QPA_PLATFORM\=wayland-egl MOZ_ENABLE_WAYLAND\=1 /" /usr/share/wayland-sessions/plasmawayland.desktop # we're gonna install firefox later
 read -p "Press enter to continue"
 
@@ -238,12 +237,10 @@ echo ""
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo ""
 # Multimedia
-xbps-install -S sof-firmware pipewire pipewire-doc easyeffects libspa-bluetooth alsa-pipewire libjack-pipewire gstreamer1-pipewire
+xbps-install -S sof-firmware rtkit pipewire pipewire-doc easyeffects libspa-bluetooth alsa-pipewire libjack-pipewire gstreamer1-pipewire
 mkdir -p /etc/alsa/conf.d
 ln -s /usr/share/alsa/alsa.conf.d/50-pipewire.conf /etc/alsa/conf.d
 ln -s /usr/share/alsa/alsa.conf.d/99-pipewire-default.conf /etc/alsa/conf.d
-sed -i -e "/^Exec\=/s/MOZ_ENABLE_WAYLAND\=1 /MOZ_ENABLE_WAYLAND\=1 pipewire pipewire-pulse /" /usr/share/wayland-sessions/plasmawayland.desktop
-sed -i -e "/^Exec\=/s/\=/\=pipewire pipewire-pulse /" /usr/share/xsessions/plasma.desktop
 xbps-install -S bluez
 ln -s /etc/sv/bluetoothd /etc/runit/runsvdir/default/
 xbps-install -S xdg-desktop-portal
