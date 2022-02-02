@@ -9,6 +9,52 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
+
+# Modify .bashrc
+# Function declaration section header
+sed -i -e "/# \.bashrc/ a\\
+\\
+\\
+# Function declaration\n" $HOME/.bashrc
+
+# appendpath function
+sed -i -e "/# Function declaration/ a\\
+# appendpath function\\
+appendpath () {\\
+    case \":\$PATH:\" in\\
+        *:\"\$1\":*)\\
+            ;;\\
+        *)\\
+            PATH=\"\${PATH:+\$PATH:}\$1\"\\
+    esac\\
+}" $HOME/.bashrc
+
+# Aliases section header
+sed -i -e "/^alias/ i\\
+\\
+# Aliases" $HOME/.bashrc
+
+# PS1 section header
+sed -i -e "/^PS1/ i\\
+\\
+\\
+# PS1" $HOME/.bashrc
+
+# PATH extension section header
+sed -i -e "/^# PS1/ i\\
+# PATH extension\\
+\\
+" $HOME/.bashrc
+
+# Unset appendpath
+sed -i -e "/^# PATH/ a\\
+unset appendpath" $HOME/.bashrc
+
+# Add $HOME/.loca/bin to PATH
+sed -i -e "/^# PATH/ a\\
+appendpath '\$HOME/.local/bin'" $HOME/.bashrc
+
+
 # Install TeX live
 mkdir ~/Programs
 mkdir ~/Programs/LaTeX
@@ -18,7 +64,10 @@ tar -xzvf install-tl-unx.tar.gz
 rm install-tl-unx.tar.gz
 export TEXLIVE_INSTALL_PREFIX=$(pwd)
 perl $(ls | sort | tail -n 1)/install-tl -portable
-sudo sed -i -e "/^# Set our default path.*/i # Must be at the beginning of path in order to let LaTeX to work properly\nPATH\='$(pwd)\/bin\/x86_64-linux:'\$PATH\n" /etc/profile
+# Add LaTeX utilities to PATH
+sed -i -e "/^# PATH/ a\\
+# Must be at the beginning of path in order to let LaTeX work properly\\
+PATH='$(pwd)/bin/x86_64-linux:'\$PATH" $HOME/.bashrc
 
 
 # Change
