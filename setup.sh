@@ -311,6 +311,30 @@ xbps-install -S htop tree pass neofetch python3-pip python3-wheel python3-virtua
 xbps-install -S pdftk ImageMagick kate5 libreoffice gimp inkscape krita obs texstudio xournalpp
 read -p "Press enter to continue"
 
+echo ""
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
+echo "                             WINE                               "
+echo ""
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
+while true; do
+    read -p "Do you wish to install wine? [Y/n]" yn
+    case $yn in
+        [Yy]* ) # 32-bit repo
+		sudo xbps-install void-repo-multilib
+		sudo xbps-install -S
+		# wine
+		# CONTAINS INTEL SPECIFIC!
+		sudo xbps-install wine wine-32bit winetricks zenity mesa-dri-32bit vulkan-loader-32bit mesa-vulkan-intel-32bit
+		break;;
+        [Nn]* ) break;;
+        * ) echo "Please, answer yes or no.";;
+    esac
+done
+read -p "Press enter to continue"
+
 
 echo ""
 echo ""
