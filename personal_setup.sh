@@ -52,7 +52,7 @@ unset appendpath" $HOME/.bashrc
 
 # Add $HOME/.loca/bin to PATH
 sed -i -e "/^# PATH/ a\\
-appendpath '\$HOME/.local/bin'" $HOME/.bashrc
+appendpath \$HOME'/.local/bin'" $HOME/.bashrc
 
 
 # Install TeX live
