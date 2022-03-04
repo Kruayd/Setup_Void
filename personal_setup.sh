@@ -98,7 +98,7 @@ wget -qO- https://raw.githubusercontent.com/gusbemacbe/suru-plus-aspromauros/mas
 
 # Setup vim
 sudo xbps-remove -R vim
-sudo xbps-install vim-huge-python3 python3-devel gcc cmake mono go nodejs openjdk11 flake8 pylint
+sudo xbps-install vim-huge-python3 python3-devel gcc cmake mono go nodejs openjdk11 flake8
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 cp $SCRIPT_DIR/home/kruayd/.vimrc ~/
 vim -c 'PluginInstall' -c 'qa!'
