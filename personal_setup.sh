@@ -54,6 +54,9 @@ unset appendpath" $HOME/.bashrc
 sed -i -e "/^# PATH/ a\\
 appendpath \$HOME'/.local/bin'" $HOME/.bashrc
 
+# Change PS1 (prompt)
+sed -i -e "s/^PS1.*/PS1\='\\\e[1;34m[\\\e[0m\\\e[1;32m\\\u\\\e[0m\\\e[1;34m@\\\h\\\e[0m \\\e[1;35m\\\W\\\e[0m\\\e[1;34m]\\\\$\\\e[0m '/" $HOME/.bashrc
+
 
 # Install TeX live
 mkdir ~/Programs
