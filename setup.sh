@@ -135,8 +135,8 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo ""
 # Power management
 # acpid
-ln -s /etc/sv/acpid /etc/runit/runsvdir/default/ || xbps-install -S acpid && ln -s /etc/sv/acpid /etc/runit/runsvdir/default/
-cp -R $SCRIPT_DIR/etc/acpi /etc/
+# ln -s /etc/sv/acpid /etc/runit/runsvdir/default/ || xbps-install -S acpid && ln -s /etc/sv/acpid /etc/runit/runsvdir/default/
+# cp -R $SCRIPT_DIR/etc/acpi /etc/
 # elogind
 xbps-install -S elogind
 sed -i -e "/^Handle/s/^/#/" /etc/elogind/logind.conf
@@ -258,7 +258,7 @@ xbps-install -S v4l2loopback
 xbps-install -S wget git make cmake tar gzip ffmpeg curl
 
 # exFAT compatibility
-xbps-install -S fuse-exfat exfat-utils
+# xbps-install -S fuse-exfat exfat-utils
 
 # Thunderbolt demon
 ln -s /etc/sv/boltd /etc/runit/runsvdir/default/
@@ -289,9 +289,9 @@ echo ""
 # Tablet mode
 xbps-install -S iio-sensor-proxy
 ln -s /etc/sv/iio-sensor-proxy /etc/runit/runsvdir/default/
-cp -R $SCRIPT_DIR/usr/local/bin /usr/local/
-cp -R $SCRIPT_DIR/etc/sv/autorotate /etc/sv/
-ln -s /etc/sv/autorotate /etc/runit/runsvdir/default/
+# cp -R $SCRIPT_DIR/usr/local/bin /usr/local/
+# cp -R $SCRIPT_DIR/etc/sv/autorotate /etc/sv/
+# ln -s /etc/sv/autorotate /etc/runit/runsvdir/default/
 # Need to understand how to install maliit keyboard
 # or any other good virtual keyboard
 read -p "Press enter to continue"

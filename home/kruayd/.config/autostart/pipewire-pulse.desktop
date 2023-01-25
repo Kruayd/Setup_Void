@@ -1,0 +1,7 @@
+[Desktop Entry]
+Exec=pipewire-pulse
+Icon=
+Name=pipewire-pulse
+Path=
+Terminal=False
+Type=Application
