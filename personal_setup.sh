@@ -45,6 +45,9 @@ echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
 # Install Zoom
 ./xbps-src pkg zoom
 sudo xbps-install --repository hostdir/binpkgs/nonfree zoom
+# Install MS fonts
+./xbps-src pkg msttcorefonts
+sudo xbps-install --repository hostdir/binpkgs/nonfree msttcorefonts
 cd ..
 
 # Setup vim

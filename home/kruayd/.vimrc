@@ -12,7 +12,7 @@ call vundle#begin()
 "call vundle#begin('~/some/path/here')
 
 " Let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+Plugin 'VundleVim/Vundle.vim'
 
 " Add all your plugins here (note older versions of Vundle
 " Used Bundle instead of Plugin)
@@ -33,7 +33,7 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'ajmwagar/vim-deus'
 
 " File tree + use tabs + hide .pyc files
-Plugin 'scrooloose/nerdtree'
+Plugin 'preservim/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
 
 " Search for files
@@ -43,7 +43,7 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'tpope/vim-fugitive'
 
 " Powerline
-Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
