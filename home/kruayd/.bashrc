@@ -240,4 +240,6 @@ umask 022
 # Must be at the beginning of path in order to let LaTeX work properly
 PATH='/home/kruayd/Programs/LaTeX/bin/x86_64-linux:'$PATH
 appendpath $HOME'/.local/bin'
+appendpath $HOME'/Programs/MATLAB/R2023b/bin'
+appendpath $HOME'/Programs/Monero-cli/'
 unset appendpath

@@ -68,8 +68,8 @@ read -p "Press enter to continue"
 #		    before setting HARDWARECLOCK:		    #
 #	   https://docs.voidlinux.org/config/rc-files.html	    #
 #								    #
-#	  Change 'Europe' and 'Berlin' to whatever you need	    #
-#			(I live in Germany)			    #
+#	  Change 'Europe' and 'Rome' to whatever you need	    #
+#			(I live in Italy)			    #
 #####################################################################
 
 echo ""
@@ -86,7 +86,7 @@ sed -i -e "/HARDWARECLOCK\=/s/^#//" /etc/rc.conf
 sed -i -e "/HARDWARECLOCK\=/s/\=.*$/\=\"UTC\"/" /etc/rc.conf
 # Timezone settings
 sed -i -e "/TIMEZONE\=/s/^#//" /etc/rc.conf
-sed -i -e "/TIMEZONE\=/s/\=.*$/\=\"Europe\/Berlin\"/" /etc/rc.conf
+sed -i -e "/TIMEZONE\=/s/\=.*$/\=\"Europe\/Rome\"/" /etc/rc.conf
 # Keymap settings
 sed -i -e "/KEYMAP\=/s/^#//" /etc/rc.conf
 sed -i -e "/KEYMAP\=/s/\=.*$/\=\"us\"/" /etc/rc.conf
@@ -113,7 +113,7 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo ""
 # Date and Time settings
 # Timezone
-ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
 # Network Time Protocol
 xbps-install -S ntp
 ln -s /etc/sv/isc-ntpd /etc/runit/runsvdir/default/
@@ -218,7 +218,7 @@ xbps-reconfigure -f fontconfig
 xbps-install -S kde5 kde5-baseapps kdegraphics-thumbnailers ffmpegthumbs accountsservice
 ln -s /etc/sv/sddm /etc/runit/runsvdir/default/
 cp /usr/share/wayland-sessions/plasmawayland.desktop /usr/share/wayland-sessions/plasmawayland.desktop.old
-sed -i -e "/^Exec\=/s/\=/\=env QT_QPA_PLATFORM\=wayland-egl MOZ_ENABLE_WAYLAND\=1 /" /usr/share/wayland-sessions/plasmawayland.desktop # we're gonna install firefox later
+sed -i -e "/^Exec\=/s/\=/\=env QT_QPA_PLATFORM\=wayland-egl ELM_DISPLAY\=wl SDL_VIDEODRIVER\=wayland MOZ_ENABLE_WAYLAND\=1 /" /usr/share/wayland-sessions/plasmawayland.desktop # we're gonna install firefox later
 read -p "Press enter to continue"
 
 
@@ -236,8 +236,11 @@ echo "              MULTIMEDIA AND FOUNDAMENTAL STUFFS                "
 echo ""
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo ""
-# Multimedia
-xbps-install -S sof-firmware rtkit pipewire pipewire-doc easyeffects libspa-bluetooth alsa-pipewire libjack-pipewire gstreamer1-pipewire
+# Multimedia with PipeWire
+xbps-install -S sof-firmware rtkit pipewire pipewire-doc easyeffects libspa-bluetooth alsa-pipewire libjack-pipewire gstreamer1-pipewire pulseaudio-utils qpwgraph pavucontrol
+mkdir -p /etc/pipewire/pipewire.conf.d
+ln -s /usr/share/examples/wireplumber/10-wireplumber.conf /etc/pipewire/pipewire.conf.d/
+ln -s /usr/share/examples/pipewire/20-pipewire-pulse.conf /etc/pipewire/pipewire.conf.d/
 mkdir -p /etc/alsa/conf.d
 ln -s /usr/share/alsa/alsa.conf.d/50-pipewire.conf /etc/alsa/conf.d
 ln -s /usr/share/alsa/alsa.conf.d/99-pipewire-default.conf /etc/alsa/conf.d
@@ -255,10 +258,10 @@ ln -s /etc/sv/cupsd /etc/runit/runsvdir/default/
 xbps-install -S v4l2loopback
 
 # Foundamental stuffs
-xbps-install -S wget git make cmake tar gzip ffmpeg curl
+xbps-install -S wget git make cmake tar gzip ffmpeg curl bash-completion
 
 # exFAT compatibility
-# xbps-install -S fuse-exfat exfat-utils
+xbps-install -S fuse-exfat exfat-utils
 
 # Thunderbolt demon
 ln -s /etc/sv/boltd /etc/runit/runsvdir/default/
@@ -305,10 +308,19 @@ echo ""
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo ""
 # Useful softwares
-xbps-install -S htop tree pass neofetch python3-pip python3-wheel python3-virtualenv dolphin konsole gwenview spectacle okular qtpass mpv firefox telegram-desktop element-desktop
+xbps-install -S htop tree pass neofetch python3 python3-virtualenv dolphin konsole gwenview spectacle okular qtpass mpv firefox telegram-desktop transmission qemu
+
+# Additional fonts
+xbps-install -S noto-fonts-cjk noto-fonts-emoji
+
+# Scientific softwares
+xbps-install -S python3-numpy python3-scipy python3-matplotlib python3-pandas python3-occ freecad kicad
 
 # Production softwares
-xbps-install -S pdftk ImageMagick kate5 libreoffice gimp inkscape krita obs texstudio xournalpp
+xbps-install -S pdftk ImageMagick kate5 libreoffice gimp inkscape krita obs texstudio xournalpp calibre
+
+# Gaming related softwares
+xbps-install -S sc-controller minigalaxy steam
 read -p "Press enter to continue"
 
 echo ""
@@ -343,6 +355,9 @@ echo ""
 echo "                       USER SECTION                             "
 echo ""
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo ""
+echo "Changing root default shell to bash"
+chsh -s /bin/bash root
 echo ""
 echo "Input your user name"
 read -r user_name
