@@ -260,6 +260,9 @@ xbps-install -S v4l2loopback
 # Foundamental stuffs
 xbps-install -S wget git make cmake tar gzip ffmpeg curl bash-completion
 
+# SMB client
+xbps-install -S cifs-utils smbclient
+
 # exFAT compatibility
 xbps-install -S fuse-exfat exfat-utils
 
