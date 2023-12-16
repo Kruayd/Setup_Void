@@ -20,12 +20,11 @@ Plugin 'VundleVim/Vundle.vim'
 " Better folding + docstrings for folded code
 Plugin 'tmhedberg/SimpylFold'
 
-" Auto-indentation
-Plugin 'vim-scripts/indentpython.vim'
+" Language pack (highlight and auto-indentation)
+Plugin 'sheerun/vim-polyglot'
 
-" Check syntax plugin + PEP8 checking
-Plugin 'vim-syntastic/syntastic'
-Plugin 'nvie/vim-flake8'
+" Check syntax plugin
+Plugin 'dense-analysis/ale'
 
 " More color scheme
 Plugin 'jnurmine/Zenburn'
@@ -41,6 +40,9 @@ Plugin 'kien/ctrlp.vim'
 
 " Git commands integration
 Plugin 'tpope/vim-fugitive'
+
+" Auto-Complete
+Plugin 'Valloric/YouCompleteMe'
 
 " Powerline
 Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
@@ -68,6 +70,20 @@ nnoremap <space> za
 " Better folding + docstrings for folded code
 let g:SimpylFold_docstring_preview=1
 
+" Flag unecessary whitespace
+highlight BadWhitespace ctermbg=red guibg=darkred
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h
+    \ match BadWhitespace /\s\+$/
+
+" Ale autofix + verbose errors
+let g:ale_fixers = {
+    \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+    \ 'python': ['black']
+\}
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+
 " PEP 8 indentation
 au BufNewFile,BufRead *.py
     \ set tabstop=4 |
@@ -87,8 +103,7 @@ au BufNewFile,BufRead *.js,*.html,*.css
 " UTF-8 support
 set encoding=utf-8
 
-" Auto-Complete + close window when used and shortcut for goto definition
-Bundle 'Valloric/YouCompleteMe'
+" Auto-Complete close window when used and shortcut for goto definition
 let g:ycm_autoclose_preview_window_after_completion=1
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
@@ -130,11 +145,6 @@ set background=dark    " Setting dark mode
 colorscheme spaceman
 let g:deus_termcolors=256
 
-" Flag unecessary whitespace
-highlight BadWhitespace ctermbg=red guibg=darkred
-au BufRead,BufNewFile *.py,*.pyw,*.c,*.h
-    \ match BadWhitespace /\s\+$/
-
 " Switch between solarized dark and light
 call togglebg#map("<F5>")
 
@@ -148,6 +158,3 @@ set nu
 set clipboard=unnamed
 
 set laststatus=2  " always display the status line
-
-" Enable glsl highlighting:
-au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl
