@@ -327,7 +327,7 @@ xbps-install -S htop tree pass neofetch python3 python3-virtualenv dolphin konso
 xbps-install -S noto-fonts-cjk noto-fonts-emoji
 
 # Scientific softwares
-xbps-install -S python3-numpy python3-scipy python3-matplotlib python3-pandas python3-occ freecad kicad paraview
+xbps-install -S python3-numpy python3-scipy python3-matplotlib python3-pandas python3-occ freecad kicad
 
 # Production softwares
 xbps-install -S pdftk ImageMagick kate5 libreoffice gimp inkscape krita obs texstudio xournalpp calibre
