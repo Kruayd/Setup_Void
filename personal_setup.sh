@@ -59,7 +59,7 @@ git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 # Already taken care by cp -r $SCRIPT_DIR/home/kruayd/* $HOME/
 vim -c 'PluginInstall' -c 'qa!'
 cd ~/.vim/bundle/YouCompleteMe
-python3 install.py --all
+python3 install.py --all --verbose
 # more info at https://dev.to/shahinsha/how-to-make-vim-a-python-ide-best-ide-for-python-23e1
 
 # Icons
