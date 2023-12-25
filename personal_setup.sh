@@ -13,7 +13,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 # Backup .bashrc
 mv $HOME/.bashrc $HOME/.bashrc_old
 # Copy everything
-cp -r $SCRIPT_DIR/home/kruayd/* $HOME/
+cp -r $SCRIPT_DIR/home/kruayd/. $HOME/
 
 # Install TeX live
 mkdir ~/Programs
