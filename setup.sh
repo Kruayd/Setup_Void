@@ -33,6 +33,7 @@ echo ""
 # then regenerate initramfs
 xbps-install -S void-repo-nonfree # Necessary to install the intel microcode (next line)
 xbps-install -S intel-ucode
+xbps-install -Su
 xbps-reconfigure -fa
 read -p "Press enter to continue"
 
@@ -59,6 +60,7 @@ sed -i -e "/en_IE.UTF-8 UTF-8/s/^#//" /etc/default/libc-locales
 # Setting the system locale
 echo "LANG=en_IE.utf8" > /etc/locale.conf
 echo "LC_COLLATE=C" >> /etc/locale.conf
+xbps-install -Su
 xbps-reconfigure -f glibc-locales
 read -p "Press enter to continue"
 
@@ -96,6 +98,7 @@ sed -i -e "/FONT\=/s/\=.*$/\=\"lat9w-16\"/" /etc/rc.conf
 # ttys settings
 sed -i -e "/TTYS\=/s/^#//" /etc/rc.conf
 sed -i -e "/TTYS\=/s/\=.*$/\=8/" /etc/rc.conf
+xbps-install -Su
 read -p "Press enter to continue"
 
 
@@ -117,6 +120,7 @@ ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
 # Network Time Protocol
 xbps-install -S ntp
 ln -s /etc/sv/isc-ntpd /etc/runit/runsvdir/default/
+xbps-install -Su
 read -p "Press enter to continue"
 
 
@@ -148,6 +152,7 @@ sed -i -e "/^Handle/s/^/#/" /etc/elogind/logind.conf
 xbps-install -S tlp
 ln -s /etc/sv/tlp /etc/runit/runsvdir/default/
 cp -R $SCRIPT_DIR/etc/tlp.d /etc/
+xbps-install -Su
 read -p "Press enter to continue"
 
 echo ""
@@ -164,6 +169,7 @@ rm -rf /etc/runit/runsvdir/default/{dhcpcd,wpa_supplicant,wicd}
 xbps-install -S dbus dbus-libs dbus-x11
 ls /etc/runit/runsvdir/default/dbus || ln -s /etc/sv/dbus /etc/runit/runsvdir/default/
 ln -s /etc/sv/NetworkManager /etc/runit/runsvdir/default/
+xbps-install -Su
 read -p "Press enter to continue"
 
 
@@ -190,6 +196,7 @@ xbps-install -S linux-firmware-intel mesa-dri vulkan-loader mesa-vulkan-intel in
 xbps-install -S xorg
 cp -R $SCRIPT_DIR/etc/X11/xorg.conf.d /etc/X11/
 xbps-remove -F xorg-video-drivers # Intel specific (not sure)
+xbps-install -Su
 read -p "Press enter to continue"
 
 
@@ -219,6 +226,7 @@ xbps-install -S kde5 kde5-baseapps kdegraphics-thumbnailers ffmpegthumbs account
 ln -s /etc/sv/sddm /etc/runit/runsvdir/default/
 cp /usr/share/wayland-sessions/plasmawayland.desktop /usr/share/wayland-sessions/plasmawayland.desktop.old
 sed -i -e "/^Exec\=/s/\=/\=env QT_QPA_PLATFORM\=wayland-egl ELM_DISPLAY\=wl SDL_VIDEODRIVER\=wayland MOZ_ENABLE_WAYLAND\=1 /" /usr/share/wayland-sessions/plasmawayland.desktop # we're gonna install firefox later
+xbps-install -Su
 read -p "Press enter to continue"
 
 
@@ -268,6 +276,7 @@ xbps-install -S fuse-exfat exfat-utils
 
 # Thunderbolt demon
 ln -s /etc/sv/boltd /etc/runit/runsvdir/default/
+xbps-install -Su
 read -p "Press enter to continue"
 
 
@@ -300,6 +309,7 @@ ln -s /etc/sv/iio-sensor-proxy /etc/runit/runsvdir/default/
 # ln -s /etc/sv/autorotate /etc/runit/runsvdir/default/
 # Need to understand how to install maliit keyboard
 # or any other good virtual keyboard
+xbps-install -Su
 read -p "Press enter to continue"
 
 echo ""
@@ -324,6 +334,7 @@ xbps-install -S pdftk ImageMagick kate5 libreoffice gimp inkscape krita obs texs
 
 # Gaming related softwares
 xbps-install -S sc-controller minigalaxy steam
+xbps-install -Su
 read -p "Press enter to continue"
 
 echo ""
@@ -348,6 +359,7 @@ while true; do
         * ) echo "Please, answer yes or no.";;
     esac
 done
+xbps-install -Su
 read -p "Press enter to continue"
 
 
@@ -366,6 +378,7 @@ echo "Input your user name"
 read -r user_name
 useradd -m -g users -G wheel,floppy,lp,audio,video,cdrom,optical,scanner,network,kvm,xbuilder,bluetooth $user_name
 passwd $user_name
+xbps-install -Su
 
 
 
