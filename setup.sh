@@ -161,7 +161,7 @@ echo ""
 # NetworkManager
 xbps-install -S NetworkManager
 rm -rf /etc/runit/runsvdir/default/{dhcpcd,wpa_supplicant,wicd}
-xbps-install -S dbus-elogind dbus-elogind-libs dbus-elogind-x11
+xbps-install -S dbus dbus-libs dbus-x11
 ls /etc/runit/runsvdir/default/dbus || ln -s /etc/sv/dbus /etc/runit/runsvdir/default/
 ln -s /etc/sv/NetworkManager /etc/runit/runsvdir/default/
 read -p "Press enter to continue"
