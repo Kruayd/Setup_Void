@@ -1,6 +1,42 @@
 # .bashrc
 
 
+# Aliases
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+    alias ip='ip --color=auto'
+fi
+
+
+# Appendpath function
+appendpath () {
+    case ":$PATH:" in
+        *:"$1":*)
+            ;;
+        *)
+            PATH="${PATH:+$PATH:}$1"
+    esac
+}
+
+
+# PATH extension
+appendpath $HOME'/.local/bin'
+unset appendpath
+
+
+# ENV variables
+# default editor
+export EDITOR=vim
+
+
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -91,19 +127,10 @@ fi
 
 
 # Function declaration
-# appendpath function
-appendpath () {
-    case ":$PATH:" in
-        *:"$1":*)
-            ;;
-        *)
-            PATH="${PATH:+$PATH:}$1"
-    esac
-}
 
 
 FQDN=`hostname`
-function __makeTerminalTitle() {
+__makeTerminalTitle() {
     local title=''
 
     local CURRENT_DIR="${PWD/#$HOME/\~}"
@@ -118,7 +145,7 @@ function __makeTerminalTitle() {
 }
 
 
-function __getMachineId() {
+__getMachineId() {
     if [ -f /etc/machine-id ]; then
         echo $((0x$(cat /etc/machine-id | head -c 15)))
     else
@@ -127,7 +154,7 @@ function __getMachineId() {
 }
 
 
-function __makePS1() {
+__makePS1() {
     local EXIT="$?"
 
     if [ ! -n "${HOST_COLOR}" ]; then
@@ -221,25 +248,4 @@ fi
 unset color_prompt force_color_prompt
 
 
-# Aliases
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    alias dir='dir --color=auto'
-    alias vdir='vdir --color=auto'
-
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
 umask 022
-
-# PATH extension
-# Must be at the beginning of path in order to let LaTeX work properly
-PATH='/home/kruayd/Programs/LaTeX/bin/x86_64-linux:'$PATH
-appendpath $HOME'/.local/bin'
-appendpath $HOME'/Programs/MATLAB/R2023b/bin'
-appendpath $HOME'/Programs/Monero-cli/'
-unset appendpath

@@ -149,7 +149,8 @@ sed -i -e "/^Handle/s/^/#/" /etc/elogind/logind.conf
 # (decomment next line if you do not plan on installing dbus)
 # ln -s /etc/sv/elogind /etc/runit/runsvdir/default/
 # tlp
-xbps-install -S tlp
+xbps-install -S tlp power-profiles-daemon
+ln -s /etc/sv/power-profiles-daemon /etc/runit/runsvdir/default/
 ln -s /etc/sv/tlp /etc/runit/runsvdir/default/
 cp -R $SCRIPT_DIR/etc/tlp.d /etc/
 xbps-install -Su
@@ -222,10 +223,11 @@ ln -s /usr/share/fontconfig/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d/
 xbps-reconfigure -f fontconfig
 
 # KDE
-xbps-install -S kde5 kde5-baseapps kdegraphics-thumbnailers ffmpegthumbs accountsservice
+xbps-install -S kde5 kde5-baseapps kdegraphics-thumbnailers ffmpegthumbs accountsservice appmenu-gtk-module appmenu-gtk3-module colord-kde kwalletmanager
 ln -s /etc/sv/sddm /etc/runit/runsvdir/default/
-cp /usr/share/wayland-sessions/plasmawayland.desktop /usr/share/wayland-sessions/plasmawayland.desktop.old
-sed -i -e "/^Exec\=/s/\=/\=env QT_QPA_PLATFORM\=wayland-egl ELM_DISPLAY\=wl SDL_VIDEODRIVER\=wayland MOZ_ENABLE_WAYLAND\=1 /" /usr/share/wayland-sessions/plasmawayland.desktop # we're gonna install firefox later
+ln -s /etc/sv/colord /etc/runit/runsvdir/default/
+# Coping wayland session profiles
+cp -R $SCRIPT_DIR/etc/profile.d /etc/
 xbps-install -Su
 read -p "Press enter to continue"
 
@@ -252,7 +254,7 @@ ln -s /usr/share/examples/pipewire/20-pipewire-pulse.conf /etc/pipewire/pipewire
 mkdir -p /etc/alsa/conf.d
 ln -s /usr/share/alsa/alsa.conf.d/50-pipewire.conf /etc/alsa/conf.d
 ln -s /usr/share/alsa/alsa.conf.d/99-pipewire-default.conf /etc/alsa/conf.d
-xbps-install -S bluez
+xbps-install -S bluez bluez-obex
 ln -s /etc/sv/bluetoothd /etc/runit/runsvdir/default/
 xbps-install -S xdg-desktop-portal
 #KDE specific
@@ -266,7 +268,7 @@ ln -s /etc/sv/cupsd /etc/runit/runsvdir/default/
 xbps-install -S v4l2loopback
 
 # Foundamental stuffs
-xbps-install -S wget git make cmake tar gzip ffmpeg curl bash-completion
+xbps-install -S neovim gnupg wget git make cmake pkg-config autoconf automake libtool tar gzip zip unzip ffmpeg curl bash-completion
 
 # SMB client
 xbps-install -S cifs-utils smbclient
@@ -304,9 +306,6 @@ echo ""
 # Tablet mode
 xbps-install -S iio-sensor-proxy
 ln -s /etc/sv/iio-sensor-proxy /etc/runit/runsvdir/default/
-# cp -R $SCRIPT_DIR/usr/local/bin /usr/local/
-# cp -R $SCRIPT_DIR/etc/sv/autorotate /etc/sv/
-# ln -s /etc/sv/autorotate /etc/runit/runsvdir/default/
 # Need to understand how to install maliit keyboard
 # or any other good virtual keyboard
 xbps-install -Su
@@ -321,16 +320,24 @@ echo ""
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo ""
 # Useful softwares
-xbps-install -S htop tree pass neofetch python3 python3-virtualenv dolphin konsole gwenview spectacle okular qtpass mpv firefox telegram-desktop transmission qemu
+xbps-install -S htop tree pass neofetch python3 python3-virtualenv flatpak dolphin konsole gwenview spectacle okular qtpass mpv firefox telegram-desktop transmission qemu
 
 # Additional fonts
 xbps-install -S noto-fonts-cjk noto-fonts-emoji
 
+# for neovim
+xbps-install -S nerd-fonts ripgrep
+
 # Scientific softwares
-xbps-install -S python3-numpy python3-scipy python3-matplotlib python3-pandas python3-occ freecad kicad
+xbps-install -S lapack-devel hdf5-devel python3-numpy python3-scipy python3-matplotlib python3-seaborn python3-pandas python3-occ python3-ipython freecad gmsh kicad kicad-library
+
+# Latex
+xbps-install -S texlive-bin
+tlmgr paper a4
+tlmgr install scheme-full
 
 # Production softwares
-xbps-install -S pdftk ImageMagick kate5 libreoffice gimp inkscape krita obs texstudio xournalpp calibre
+xbps-install -S pdftk ImageMagick kate5 libreoffice gimp inkscape krita blender obs texstudio xournalpp calibre glow radare2
 
 # Gaming related softwares
 xbps-install -S sc-controller minigalaxy steam
@@ -353,7 +360,7 @@ while true; do
 		sudo xbps-install -S
 		# wine
 		# CONTAINS INTEL SPECIFIC!
-		sudo xbps-install wine wine-32bit winetricks zenity mesa-dri-32bit vulkan-loader-32bit mesa-vulkan-intel-32bit
+		sudo xbps-install wine wine-mono wine-32bit winetricks zenity mesa-dri-32bit vulkan-loader-32bit mesa-vulkan-intel-32bit
 		break;;
         [Nn]* ) break;;
         * ) echo "Please, answer yes or no.";;
@@ -376,7 +383,7 @@ chsh -s /bin/bash root
 echo ""
 echo "Input your user name"
 read -r user_name
-useradd -m -g users -G wheel,floppy,lp,audio,video,cdrom,optical,scanner,network,kvm,xbuilder,bluetooth $user_name
+useradd -m -g $user_name -G users,wheel,floppy,lp,audio,video,cdrom,optical,scanner,network,kvm,xbuilder,bluetooth,input $user_name
 passwd $user_name
 xbps-install -Su
 

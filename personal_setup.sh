@@ -15,24 +15,6 @@ mv $HOME/.bashrc $HOME/.bashrc_old
 # Copy everything
 cp -r $SCRIPT_DIR/home/kruayd/. $HOME/
 
-# Install TeX live
-mkdir ~/Programs
-mkdir ~/Programs/LaTeX
-cd ~/Programs/LaTeX
-wget https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
-tar -xzvf install-tl-unx.tar.gz
-rm install-tl-unx.tar.gz
-export TEXLIVE_INSTALL_PREFIX=$(pwd)
-perl $(ls | sort | tail -n 1)/install-tl -portable
-# Add LaTeX utilities to PATH
-# sed -i -e "/^# PATH/ a\\
-# # Must be at the beginning of path in order to let LaTeX work properly\\
-# PATH='$(pwd)/bin/x86_64-linux:'\$PATH" $HOME/.bashrc
-# Latex is already added to PATH in .bashrc
-
-
-# Change
-
 mkdir ~/Builds
 cd ~/Builds
 
@@ -49,18 +31,6 @@ sudo xbps-install --repository hostdir/binpkgs/nonfree zoom
 ./xbps-src pkg msttcorefonts
 sudo xbps-install --repository hostdir/binpkgs/nonfree msttcorefonts
 cd ..
-
-# Setup vim
-sudo xbps-remove -R vim
-sudo xbps-install vim-huge-python3 python3-devel gcc cmake mono go nodejs openjdk17 flake8 black
-git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-# cp -r $SCRIPT_DIR/home/kruayd/.vim ~/
-# cp $SCRIPT_DIR/home/kruayd/.vimrc ~/
-# Already taken care by cp -r $SCRIPT_DIR/home/kruayd/* $HOME/
-vim -c 'PluginInstall' -c 'qa!'
-cd ~/.vim/bundle/YouCompleteMe
-python3 install.py --all --verbose
-# more info at https://dev.to/shahinsha/how-to-make-vim-a-python-ide-best-ide-for-python-23e1
 
 # Icons
 # cp -r $SCRIPT_DIR/home/kruayd/.local/share/icons $HOME/.local/share/
