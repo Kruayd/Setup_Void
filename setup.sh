@@ -333,6 +333,7 @@ xbps-install -S lapack-devel hdf5-devel python3-numpy python3-scipy python3-matp
 
 # Latex
 xbps-install -S texlive-bin
+source /etc/profile
 tlmgr paper a4
 tlmgr install scheme-full
 
