@@ -165,7 +165,7 @@ echo ""
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo ""
 # NetworkManager
-xbps-install -S NetworkManager
+xbps-install -S NetworkManager python3-dbus
 rm -rf /etc/runit/runsvdir/default/{dhcpcd,wpa_supplicant,wicd}
 xbps-install -S dbus dbus-libs dbus-x11
 ls /etc/runit/runsvdir/default/dbus || ln -s /etc/sv/dbus /etc/runit/runsvdir/default/
@@ -218,12 +218,15 @@ echo ""
 # Wayland
 xbps-install -S wayland qt5-wayland kwayland xorg-server-xwayland
 
+# Additional fonts
+xbps-install -S noto-fonts-cjk noto-fonts-emoji nerd-fonts
+
 # No bitmap fonts:
 ln -s /usr/share/fontconfig/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d/
 xbps-reconfigure -f fontconfig
 
 # KDE
-xbps-install -S kde5 kde5-baseapps kdegraphics-thumbnailers ffmpegthumbs accountsservice appmenu-gtk-module appmenu-gtk3-module colord-kde kwalletmanager
+xbps-install -S kde-plasma kde-baseapps kdegraphics-thumbnailers ffmpegthumbs accountsservice appmenu-gtk-module appmenu-gtk3-module colord-kde kwalletmanager
 ln -s /etc/sv/sddm /etc/runit/runsvdir/default/
 ln -s /etc/sv/colord /etc/runit/runsvdir/default/
 # Coping wayland session profiles
@@ -258,7 +261,7 @@ xbps-install -S bluez bluez-obex
 ln -s /etc/sv/bluetoothd /etc/runit/runsvdir/default/
 xbps-install -S xdg-desktop-portal
 #KDE specific
-xbps-install -S xdg-desktop-portal-kde
+xbps-install -S xdg-desktop-portal-kde xdg-desktop-portal-gtk
 
 # Printing
 xbps-install -S cups cups-filters
@@ -268,7 +271,7 @@ ln -s /etc/sv/cupsd /etc/runit/runsvdir/default/
 xbps-install -S v4l2loopback
 
 # Foundamental stuffs
-xbps-install -S neovim gnupg wget git make cmake pkg-config autoconf automake libtool tar gzip zip unzip ffmpeg curl bash-completion
+xbps-install -S neovim gnupg wget git make cmake pkg-config autoconf automake libtool tar gzip zip unzip 7zip-unrar ffmpeg curl bash-completion
 
 # SMB client
 xbps-install -S cifs-utils smbclient
@@ -322,11 +325,8 @@ echo ""
 # Useful softwares
 xbps-install -S htop tree pass neofetch python3 python3-virtualenv flatpak dolphin konsole gwenview spectacle okular qtpass mpv firefox telegram-desktop transmission qemu
 
-# Additional fonts
-xbps-install -S noto-fonts-cjk noto-fonts-emoji
-
-# for neovim
-xbps-install -S nerd-fonts ripgrep
+# for nv-chad
+xbps-install -S ripgrep
 
 # Scientific softwares
 xbps-install -S lapack-devel hdf5-devel python3-numpy python3-scipy python3-matplotlib python3-seaborn python3-pandas python3-occ python3-ipython freecad gmsh kicad kicad-library
@@ -337,7 +337,7 @@ tlmgr paper a4
 tlmgr install scheme-full
 
 # Production softwares
-xbps-install -S pdftk ImageMagick kate5 libreoffice gimp inkscape krita blender obs texstudio xournalpp calibre glow radare2
+xbps-install -S pdftk ImageMagick kate libreoffice gimp inkscape krita blender obs texstudio xournalpp calibre glow radare2
 
 # Gaming related softwares
 xbps-install -S sc-controller minigalaxy steam
