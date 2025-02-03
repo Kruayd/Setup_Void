@@ -261,7 +261,7 @@ xbps-install -S bluez bluez-obex
 ln -s /etc/sv/bluetoothd /etc/runit/runsvdir/default/
 xbps-install -S xdg-desktop-portal
 #KDE specific
-xbps-install -S xdg-desktop-portal-kde xdg-desktop-portal-gtk
+xbps-install -S xdg-desktop-portal-kde
 
 # Printing
 xbps-install -S cups cups-filters
@@ -383,7 +383,7 @@ chsh -s /bin/bash root
 echo ""
 echo "Input your user name"
 read -r user_name
-useradd -m -g $user_name -G users,wheel,floppy,lp,audio,video,cdrom,optical,scanner,network,kvm,xbuilder,bluetooth,input $user_name
+useradd -m -G users,wheel,floppy,lp,audio,video,cdrom,optical,scanner,network,kvm,xbuilder,bluetooth,input $user_name
 passwd $user_name
 xbps-install -Su
 
