@@ -15,6 +15,13 @@ mv $HOME/.bashrc $HOME/.bashrc_old
 # Copy everything
 cp -r $SCRIPT_DIR/home/kruayd/. $HOME/
 
+# Icons
+sudo xbps-install -S papirus-icon-theme
+sudo xbps-install -S papirus-folders
+
+# Cursor
+sudo xbps-install -S breeze-red-cursor-theme
+
 mkdir ~/Builds
 cd ~/Builds
 
