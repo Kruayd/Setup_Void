@@ -149,9 +149,9 @@ sed -i -e "/^Handle/s/^/#/" /etc/elogind/logind.conf
 # (decomment next line if you do not plan on installing dbus)
 # ln -s /etc/sv/elogind /etc/runit/runsvdir/default/
 # tlp
-xbps-install -S tlp power-profiles-daemon
-ln -s /etc/sv/power-profiles-daemon /etc/runit/runsvdir/default/
+xbps-install -S tlp tlp-pd tlp-rdw
 ln -s /etc/sv/tlp /etc/runit/runsvdir/default/
+ln -s /etc/sv/tlp-pd /etc/runit/runsvdir/default/
 cp -R $SCRIPT_DIR/etc/tlp.d /etc/
 xbps-install -Su
 read -p "Press enter to continue"
@@ -191,7 +191,7 @@ echo ""
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo ""
 # Graphics drivers for Intel integrated gpu
-xbps-install -S linux-firmware-intel mesa-dri vulkan-loader mesa-vulkan-intel intel-video-accel
+xbps-install -S linux-firmware-intel mesa-dri vulkan-loader mesa-vulkan-intel intel-video-accel Vulkan-Tools glxinfo
 
 # Xorg
 xbps-install -S xorg
@@ -216,7 +216,7 @@ echo ""
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo ""
 # Wayland
-xbps-install -S wayland qt5-wayland kwayland xorg-server-xwayland
+xbps-install -S wayland qt5-wayland kwayland xorg-server-xwayland wl-clipboard
 
 # Additional fonts
 xbps-install -S noto-fonts-cjk noto-fonts-emoji nerd-fonts
@@ -226,7 +226,7 @@ ln -s /usr/share/fontconfig/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d/
 xbps-reconfigure -f fontconfig
 
 # KDE
-xbps-install -S kde-plasma kde-baseapps kdegraphics-thumbnailers ffmpegthumbs accountsservice appmenu-gtk-module appmenu-gtk3-module colord-kde kwalletmanager
+xbps-install -S kde-plasma kde-baseapps kdegraphics-thumbnailers ffmpegthumbs accountsservice appmenu-gtk-module appmenu-gtk3-module colord-kde kwalletmanager pinentry-qt
 ln -s /etc/sv/sddm /etc/runit/runsvdir/default/
 ln -s /etc/sv/colord /etc/runit/runsvdir/default/
 # Coping wayland session profiles
@@ -257,6 +257,7 @@ ln -s /usr/share/examples/pipewire/20-pipewire-pulse.conf /etc/pipewire/pipewire
 mkdir -p /etc/alsa/conf.d
 ln -s /usr/share/alsa/alsa.conf.d/50-pipewire.conf /etc/alsa/conf.d
 ln -s /usr/share/alsa/alsa.conf.d/99-pipewire-default.conf /etc/alsa/conf.d
+ln -s /usr/share/applications/pipewire.desktop /etc/xdg/autostart
 xbps-install -S bluez bluez-obex
 ln -s /etc/sv/bluetoothd /etc/runit/runsvdir/default/
 xbps-install -S xdg-desktop-portal
@@ -271,7 +272,13 @@ ln -s /etc/sv/cupsd /etc/runit/runsvdir/default/
 xbps-install -S v4l2loopback
 
 # Foundamental stuffs
-xbps-install -S neovim gnupg wget git make cmake pkg-config autoconf automake libtool tar gzip zip unzip 7zip-unrar ffmpeg curl bash-completion
+xbps-install -S kitty neovim gnupg wget git gdb make cmake pkg-config autoconf automake libtool tar gzip zip unzip 7zip-unrar ffmpeg curl bash-completion
+
+# Since we've installed kitty, there's no point in having multiple terminal emulators
+xbps-remove -RF konsole
+
+# NFS client
+xbps-install -S nfs-utils
 
 # SMB client
 xbps-install -S cifs-utils smbclient
@@ -323,13 +330,13 @@ echo ""
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo ""
 # Useful softwares
-xbps-install -S htop tree pass neofetch python3 python3-virtualenv flatpak dolphin konsole gwenview spectacle okular qtpass mpv firefox telegram-desktop transmission qemu
+xbps-install -S htop tree pass fastfetch python3 python3-virtualenv flatpak dolphin gwenview spectacle okular qtpass mpv firefox telegram-desktop transmission qemu
 
-# for nv-chad
-xbps-install -S ripgrep
+# for nvchad
+xbps-install -S ripgrep nodejs
 
 # Scientific softwares
-xbps-install -S lapack-devel hdf5-devel python3-numpy python3-scipy python3-matplotlib python3-seaborn python3-pandas python3-occ python3-ipython freecad gmsh kicad kicad-library
+xbps-install -S lapack-devel hdf5-devel python3-tqdm python3-numpy python3-scipy python3-matplotlib python3-seaborn python3-yaml python3-pandas python3-occ python3-ipython freecad gmsh ngspice kicad kicad-library
 
 # Latex
 xbps-install -S texlive-bin
@@ -338,10 +345,10 @@ tlmgr paper a4
 tlmgr install scheme-full
 
 # Production softwares
-xbps-install -S pdftk ImageMagick kate libreoffice gimp inkscape krita blender obs texstudio xournalpp calibre glow radare2
+xbps-install -S pdftk pastel ImageMagick kate libreoffice gimp inkscape krita blender obs xournalpp calibre glow radare2
 
 # Gaming related softwares
-xbps-install -S sc-controller minigalaxy steam
+xbps-install -S sc-controller minigalaxy steam MangoHud
 xbps-install -Su
 read -p "Press enter to continue"
 
