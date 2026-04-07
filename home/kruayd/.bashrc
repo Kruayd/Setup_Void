@@ -36,6 +36,12 @@ unset appendpath
 # default editor
 export EDITOR=vim
 
+# TEXMFHOME for personal latex configurations and templates
+export TEXMFHOME=$HOME/.local/share/texmf
+
+# Use KDE wallet to store ssh key passphrases
+export SSH_ASKPASS=/usr/bin/ksshaskpass
+export SSH_ASKPASS_REQUIRE=prefer
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
