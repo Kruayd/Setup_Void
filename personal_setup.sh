@@ -20,7 +20,7 @@ sudo xbps-install -S papirus-icon-theme
 sudo xbps-install -S papirus-folders
 
 # Cursor
-sudo xbps-install -S breeze-red-cursor-theme
+sudo xbps-install -S breeze-amber-cursor-theme
 
 mkdir ~/Builds
 cd ~/Builds
@@ -46,3 +46,20 @@ cd ..
 # copy themes for KDE
 # cp -R $SCRIPT_DIR/home/kruayd/.local/* ~/.local/
 # Already taken care by cp -r $SCRIPT_DIR/home/kruayd/* $HOME/
+
+
+# Things to set up:
+#  - bashrc
+#  - bash_profile
+#  - kitty.config
+#  - nvchad
+#  - neovim
+#  - kde shortcuts
+#  - kde default apps
+#  - copy background pic
+#  - plasmashell settings
+#  - dolphin settings
+#  - sddm settings
+#  - okular
+#  - Freecad
+#  - Kicad
