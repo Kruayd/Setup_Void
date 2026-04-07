@@ -1,0 +1,78 @@
+directory: /volume1/Music
+library: ~/.config/beets/library.db
+import:
+  copy: yes
+  timid: yes
+paths:
+  default: tmp/$format/$albumartist/$albumartist - $album%aunique{} ($year)/$track $title %if{$bitdepth,[${samplerate}-${bitdepth}],[$bitrate]}
+  singleton: tmp/$format/$albumartist/$albumartist - $album%aunique{} ($year)/$track $title %if{$bitdepth,[${samplerate}-${bitdepth}],[$bitrate]}
+  comp: tmp/$format/Compilations/$album%aunique{} ($year)/$track $title %if{$bitdepth,[${samplerate}-${bitdepth}],[$bitrate]}
+
+plugins:
+  - chroma
+  - musicbrainz
+  - edit
+  - fetchart
+  - embedart
+  - lyrics
+  - lastgenre
+
+edit:
+  itemfields:
+    - title
+    - artist
+    - artists
+    - artist_sort
+    - artists_sort
+    - album
+    - albumartist
+    - albumartists
+    - albumartist_sort
+    - albumartists_sort
+    - track
+    - disc
+    - genre
+    - year
+    - original_year
+    - composer
+    - arranger
+    - lyricist
+  albumfields:
+    - album
+    - albumartist
+    - albumartists
+    - albumartist_sort
+    - albumartists_sort
+    - genre
+    - original_year
+
+fetchart:
+  auto: yes
+  cautious: yes
+  minwidth: 400
+  maxwidth: 1400
+  quality: 100
+  sources:
+    - fanarttv
+    - lastfm
+    - itunes
+    - amazon
+    - albumart
+    - coverart
+    - filesystem
+  fanarttv_key: 74d28a5fccaf67cbde10eab232801c4e
+  lastfm_key: fa956d51d27d4a84e40f6d1ebb6b728f
+  high_resolution: yes
+
+embedart:
+  auto: yes
+
+lyrics:
+  auto: yes
+  synced: yes
+
+lastgenre:
+  auto: yes
+  force: yes
+  keep_existing: no
+  prefer_specific: yes
