@@ -333,7 +333,7 @@ echo ""
 xbps-install -S htop tree pass fastfetch python3 python3-virtualenv flatpak dolphin gwenview spectacle okular qtpass mpv firefox telegram-desktop transmission qemu
 
 # for nvchad
-xbps-install -S tree-sitter-devel ripgrep
+xbps-install -S tree-sitter-devel ripgrep nodejs
 
 # Scientific softwares
 xbps-install -S lapack-devel hdf5-devel python3-tqdm python3-numpy python3-scipy python3-matplotlib python3-seaborn python3-yaml python3-pandas python3-occ python3-ipython freecad gmsh ngspice kicad kicad-library
