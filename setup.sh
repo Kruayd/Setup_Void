@@ -274,6 +274,9 @@ xbps-install -S v4l2loopback
 # Foundamental stuffs
 xbps-install -S xmirror xtools kitty neovim gnupg wget git gdb make cmake pkg-config autoconf automake libtool tar gzip zip unzip 7zip-unrar ffmpeg curl bash-completion
 
+# Change xbps mirror
+xmirror
+
 # Since we've installed kitty, there's no point in having multiple terminal emulators
 xbps-remove -RF konsole
 
