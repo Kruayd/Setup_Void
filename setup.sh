@@ -226,9 +226,8 @@ ln -s /usr/share/fontconfig/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d/
 xbps-reconfigure -f fontconfig
 
 # KDE
-xbps-install -S kde-plasma kde-baseapps kdegraphics-thumbnailers ffmpegthumbs accountsservice appmenu-gtk-module appmenu-gtk3-module colord-kde kwalletmanager pinentry-qt
+xbps-install -S kde-plasma kde-baseapps kdegraphics-thumbnailers ffmpegthumbs accountsservice appmenu-gtk-module appmenu-gtk3-module kwalletmanager pinentry-qt
 ln -s /etc/sv/sddm /etc/runit/runsvdir/default/
-ln -s /etc/sv/colord /etc/runit/runsvdir/default/
 # Coping wayland session profiles
 cp -R $SCRIPT_DIR/etc/profile.d /etc/
 xbps-install -Su
